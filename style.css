@@ -1,0 +1,100 @@
+/* css reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Do Hyeon', sans-serif;
+}
+
+#container {
+  background: #313152;
+  height: 100vh;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------------- */
+/* HEADER */
+
+header {
+  background: black;
+  
+  /* flex-grow: How much of the positive free space does this item get?
+   * flex-shrink: How much negative free space can be removed from this item?
+   * flex-basis: What is the size of the item before growing and shrinking happe
+    ns? */
+  min-height: 150px;
+
+  flex: 1.5 1 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header #title {
+  font-size: 3em;
+  color: white;
+}
+
+/* ---------------------------------------- */
+/* MAIN */
+
+#main {
+  background: #ffffff;
+  min-height: 550px;
+
+  flex: 8 1 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-board {
+  border: 1px solid black;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 150px);
+  grid-template-rows: repeat(3, 150px);
+}
+
+#game-board div {
+  border: 1px solid black;
+  text-align: center;
+  line-height: 150px;
+  font-size: 150px;
+}
+
+/* ---------------------------------------- */
+/* FOOTER */
+
+footer {
+  background: #030303;
+  min-height: 100px;
+  flex: 0.5 1 auto;
+}
+
+#footer-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fab,
+.far {
+  color: white;
+  font-size: 3em;
+  padding: 5px;
+}
+
+
+
+
+
