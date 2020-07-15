@@ -8,21 +8,40 @@ const elements = (function() {
 
 // Gameboard Module
 const gameBoard = (function() {
-  let board = 
+  let _playerTurn = 0;
+
+  let _board = 
   [
     '', '', '',
     '', '', '',
     '', '', ''
   ];
 
-  const getGameBoard = () => board;
+  const getGameBoard = () => _board;
+  const giveATurnToPlayer = (playerNum) => _userTurn = playerNum;
+  const getWhoseTurn = () => _userTurn
   return {
+    giveATurnToPlayer,
+    getWhoseTurn,
     getGameBoard
   }
 })();
 
 // Display Module
 const displayController = (function() {
+  let gameBoard = elements.gameBoard;
+
+  const enablePlacingMarker = () => {
+    
+    // // Add EventListener to the all spots on the gameBoard
+    for(let i = 0; i < gameBoard.children.length; i++) {
+      let div = gameBoard.children[i];
+      
+      div.addEventListener('click', (event) => {
+        
+      })
+    }
+  }
 
   // This function will take an array which is a gameboard,
   // And then it will display the gameboard on the screen.
@@ -34,27 +53,34 @@ const displayController = (function() {
   }
 
   return {
+    gameBoard,
+    enablePlacingMarker,
     displayGameBoard
   }
 })();
 
 // Factory Functions for making players
-const playerFactory = (name) => {
+const Player = (name, marker) => {
+  let _name = name;
+  let _marker = marker;
+
+  const getName = () => _name;
+  const getMarker = () => _marker;
 
   return {
-    name,
-    chooseWhereToPlace
+    getName,
+    getMarker
   }
 }
 
+const player1 = Player("Sanghak", "X");
+const player2 = Player("SangMyeong", "O");
+
 displayController.displayGameBoard(gameBoard.getGameBoard());
 
-// Add EventListener to the all spots on the gameBoard
-for(let i = 0; elements.gameBoard.children.length; i++) {
-  let div = elements.gameBoard.children[i];
-  console.log(div);
-  // elements.gameBoard.children[i].addEventListener('click', (event) => {
-  //   console.log('It is clicked!')
-  // })
-}
+// displayController.enablePlacingMarker();
+
+// START THE GAME
+gameBoard.giveATurnToPlayer(1);
+console.log(gameBoard.getWhoseTurn());
 
