@@ -30,15 +30,20 @@ const gameBoard = (function() {
 // Display Module
 const displayController = (function() {
   let gameBoard = elements.gameBoard;
+  
+  const placeMarker = (div, marker) => {
+    div.innerHTML = marker;
+  }
 
-  const enablePlacingMarker = () => {
-    
-    // // Add EventListener to the all spots on the gameBoard
-    for(let i = 0; i < gameBoard.children.length; i++) {
+  const enableBoardClick = () => {
+    // This will enable the gameBoard to be clicked, and it will return
+    // the div element that was clicked
+    for(i = 0; i < gameBoard.children.length; i++) {
       let div = gameBoard.children[i];
-      
       div.addEventListener('click', (event) => {
-        
+        let player = game.getCurrentPlayer();
+        placeMarker(div, player.getMarker());
+        game.increaseGameCount();
       })
     }
   }
@@ -54,7 +59,8 @@ const displayController = (function() {
 
   return {
     gameBoard,
-    enablePlacingMarker,
+    placeMarker,
+    enableBoardClick,
     displayGameBoard
   }
 })();
@@ -73,14 +79,55 @@ const Player = (name, marker) => {
   }
 }
 
-const player1 = Player("Sanghak", "X");
-const player2 = Player("SangMyeong", "O");
-
 displayController.displayGameBoard(gameBoard.getGameBoard());
 
-// displayController.enablePlacingMarker();
+// Game Module, that will control the flow of the game
+const game = (function () {
 
-// START THE GAME
-gameBoard.giveATurnToPlayer(1);
-console.log(gameBoard.getWhoseTurn());
+  let _gameCount = 0;
+  let _players = []
+  let _currentPlayer = '';
+  let _currentMarker = '';
+  
+  const getPlayers = () => _players;
+
+  // Receives an instance of factory function 'Player'
+  const addPlayer = (player) => _players.push(player);
+  
+  // Return the current players depending on the gameCount
+  const getCurrentPlayer = () => {
+    if(_gameCount % 2 === 0) {
+      _currentPlayer = _players[0];
+    } else {
+      _currentPlayer = _players[1];
+    }
+
+    return _currentPlayer;
+  }
+  const resetPlayers = () => _players = [];
+  const increaseGameCount = () => _gameCount++;
+
+  return {
+    getPlayers,
+    addPlayer,
+    getCurrentPlayer,
+    resetPlayers,
+    increaseGameCount,
+  }
+})();
+
+game.addPlayer(Player('Sanghak', 'X'));
+game.addPlayer(Player('Seongkyu', 'O'));
+displayController.enableBoardClick();
+
+
+
+
+
+
+
+
+
+
+
 
