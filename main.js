@@ -8,7 +8,6 @@ const elements = (function() {
 
 // Gameboard Module
 const gameBoard = (function() {
-  let _playerTurn = 0;
 
   let _board = 
   [
@@ -18,17 +17,17 @@ const gameBoard = (function() {
   ];
 
   const getGameBoard = () => _board;
-  const giveATurnToPlayer = (playerNum) => _userTurn = playerNum;
-  const getWhoseTurn = () => _userTurn
+
   return {
-    giveATurnToPlayer,
-    getWhoseTurn,
     getGameBoard
   }
 })();
 
+
+
 // Display Module
 const displayController = (function() {
+  
   let gameBoard = elements.gameBoard;
   
   const placeMarker = (div, marker) => {
@@ -41,8 +40,9 @@ const displayController = (function() {
     for(i = 0; i < gameBoard.children.length; i++) {
       let div = gameBoard.children[i];
       div.addEventListener('click', (event) => {
-        let player = game.getCurrentPlayer();
-        placeMarker(div, player.getMarker());
+        let currentPlayer = game.getCurrentPlayer();
+        let marker = currentPlayer.getMarker();
+        placeMarker(div, marker);
         game.increaseGameCount();
       })
     }
@@ -89,11 +89,9 @@ const game = (function () {
   let _currentPlayer = '';
   let _currentMarker = '';
   
-  const getPlayers = () => _players;
+  // Return all players that are there
+  const getAllPlayers = () => _players;
 
-  // Receives an instance of factory function 'Player'
-  const addPlayer = (player) => _players.push(player);
-  
   // Return the current players depending on the gameCount
   const getCurrentPlayer = () => {
     if(_gameCount % 2 === 0) {
@@ -104,11 +102,18 @@ const game = (function () {
 
     return _currentPlayer;
   }
+
+  // Receives an instance of factory function 'Player'
+  const addPlayer = (name, marker) => {
+    _players.push(Player(name, marker));
+  };
+  
   const resetPlayers = () => _players = [];
   const increaseGameCount = () => _gameCount++;
 
   return {
-    getPlayers,
+    getAllPlayers,
+    getCurrentPlayer,
     addPlayer,
     getCurrentPlayer,
     resetPlayers,
@@ -116,9 +121,14 @@ const game = (function () {
   }
 })();
 
-game.addPlayer(Player('Sanghak', 'X'));
-game.addPlayer(Player('Seongkyu', 'O'));
+// Adding Players
+game.addPlayer('Sanghak', 'X');
+game.addPlayer('Seongkyu', 'O');
+
+// Game Start!
 displayController.enableBoardClick();
+
+
 
 
 
