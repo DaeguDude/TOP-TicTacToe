@@ -31,7 +31,12 @@ const displayController = (function() {
   let gameBoard = elements.gameBoard;
   
   const placeMarker = (div, marker) => {
-    div.innerHTML = marker;
+    // If it's only empty, you can place the marker
+    if(div.innerHTML === '') {
+      div.innerHTML = marker;
+    } else {
+      console.log('It is taken!');
+    }
   }
 
   const enableBoardClick = () => {
@@ -40,9 +45,7 @@ const displayController = (function() {
     for(i = 0; i < gameBoard.children.length; i++) {
       let div = gameBoard.children[i];
       div.addEventListener('click', (event) => {
-        let currentPlayer = game.getCurrentPlayer();
-        let marker = currentPlayer.getMarker();
-        placeMarker(div, marker);
+        placeMarker(div, game.getCurrentPlayer().getMarker());
         game.increaseGameCount();
       })
     }
