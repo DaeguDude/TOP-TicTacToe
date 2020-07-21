@@ -55,6 +55,100 @@ header #title {
   align-items: center;
 }
 
+/* ---------------------------------------- */
+/* START DISPLAY 
+  This is for users to put thier names or something
+*/
+#start-display {
+  height: 100%;
+  width: 100%;
+  margin: 0 10%;
+
+  padding: 5%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.start-items {
+  flex: 1 1 0;
+}
+
+#start-title {
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#start-players {  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-players-item {
+  width: 300px;
+  height: 100px;
+  margin: 0 30px;
+
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.start-players-item span {
+  flex: 1 1 0;
+  font-size: 2em;
+}
+
+.start-players-item input {
+  flex: 1 1 0;
+  border-radius: 2px;
+  font-size: 1.3em;
+  padding: 2px;
+  
+}
+
+
+
+
+#start-start-btn {  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#start-start-btn button {
+  min-width: 180px;
+  min-height: 80px;
+  margin: 20px;
+  border-radius: 12px;
+  background: #000;
+  color: #fff;
+  font-size: 1.3em;
+  border: none;
+}
+
+#start-start-btn button:hover {
+  cursor: pointer;
+}
+
+#start-start-btn button:active {
+  transform: scale(0.95);
+}
+
+#start-start-btn button:focus {
+  outline: none;
+}
+
+
+
+
+/* ---------------------------------------- */
+/* MAIN GAME BOARD */
+
 #game-board {
   border: 1px solid black;
 
