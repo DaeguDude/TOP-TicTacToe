@@ -12,6 +12,7 @@ body {
 #container {
   background: #313152;
   height: 100vh;
+  min-width: 1050px;
   
   display: flex;
   flex-direction: column;
@@ -152,7 +153,7 @@ header #title {
 #game-board {
   border: 1px solid black;
 
-  display: grid;
+  display: none;
 
   grid-template-columns: repeat(3, 150px);
   grid-template-rows: repeat(3, 150px);
