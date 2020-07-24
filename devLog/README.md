@@ -53,5 +53,18 @@ Modular Javascript #2: [12:24](https://youtu.be/m-NYyst_tiY?list=PLoYCgNOIyGABs-
 - [Code about PubSub Design Pattern](https://gist.github.com/learncodeacademy/777349747d8382bfb722)
 
 
+## 07/24(10:30~13:00 - 5 tomato acquired)
+
+Today, I spent most of my time understanding how pubsub actually works. And I kind of getting it. So, I feel like I'm ready to move on to actually integrate this pubsub on my module, and see how I can separate all the modules being dependent on each other. 
+
+I know how to use pubsub for how to not call other module's methods in the another method, however, when to use subscribe, unsubscribe, and emit in Pubsub. Like whole logic for the game.
+
+I will see. Shouldn't be easy. But it's worth putting the effort in.
+
+### How will you integrate the pubsub to the tic-tac-toe program?
+
+
+
+
 
 
