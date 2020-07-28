@@ -61,13 +61,19 @@ I know how to use pubsub for how to not call other module's methods in the anoth
 
 I will see. Shouldn't be easy. But it's worth putting the effort in.
 
-## 07/26(16:00~18:00 - 4 tomato acquired)
+## 07/27(16:00~18:00 - 4 tomato acquired)
 
 ### How will you integrate the pubsub to the tic-tac-toe program?
 
 Today, I have been working on refactor all the code. I started from the meeting all the requirements first from Tic Tac Toe project, and at the same time, I'm trying to think which module that all the functions need to be in logically. Let's keep working on it. Haven't really finished yet.
 
 Start from checking [TicTacToe-task3](https://app.diagrams.net/#G1QogT8dgUSq_jU3gbd5cx5Mf3r92i6x9a)
+
+
+## 07/28(13:30~16:00 - 5 tomato acquired)
+
+I've successfully used pubsub design pattern. But the question remains...
+What will I actually pass when I emit the events? 
 
 
 
