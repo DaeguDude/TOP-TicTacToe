@@ -112,6 +112,8 @@ const Player = (name, marker) => {
   const getName = () => _name;
   const getMarker = () => _marker;
 
+  const p
+
   return {
     getName,
     getMarker

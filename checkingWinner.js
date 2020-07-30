@@ -19,7 +19,8 @@ const checkTheWinner = () => {
   let x = 0;
   for(let i = 0; i < 3; i++) {
     if(board[x] === board[x+1] && board[x+1] === board[x+2]) {
-      // Finish the game
+      console.log(`${i+1} row completed! Game Done!`);
+      break;
     }
     // In the rows, by adding 3 to the variable 'x', you will
     // change the row
@@ -30,7 +31,8 @@ const checkTheWinner = () => {
   x = 0;
   for(let i = 0; i < 3; i++) {
     if(board[x] === board[x+3] && board[x+3] === board[x+6]) {
-      // Finish the game
+      console.log(`${i+1} column completed! Game Done!`);
+      break;
     }
     // By adding 1 to the index, it's chanigng to the next columns.
     x += 1;
@@ -40,7 +42,8 @@ const checkTheWinner = () => {
   x = 0;
   for(let i = 0; i < 2; i++) {
     if(board[x] === board[4] && board[4] === board[8-x]) {
-      // Finish the game
+      console.log(`${i+1} diagonal direction completed! Game Done!`);
+      break;
     }
 
     // By adding 2 to the index, it's changing to the different
