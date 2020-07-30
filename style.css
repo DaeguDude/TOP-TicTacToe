@@ -153,7 +153,7 @@ header #title {
 #game-board {
   border: 1px solid black;
 
-  display: grid;
+  display: none;
 
   grid-template-columns: repeat(3, 150px);
   grid-template-rows: repeat(3, 150px);

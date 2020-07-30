@@ -1,54 +1,75 @@
 // How do you check the winner?
 
 let board = [
-  '', '', '',
-  '', 'X', '',
-  'X', 'X', 'X'
+  'X', 'O', 'X',
+  'O', 'O', 'X',
+  'X', 'X', 'O'
 ]
 
 const checkTheWinner = () => {
   /**
-   * There are 8 ways to win in tic-tac-toe games.
+   * There are 8 ways to win in the tic-tac-toe games.
    * 
    * row - 0-2, 3-5, 6-8
    * column - [0,3,6], [1,4,7], [2,5,8]
    * diagonal - [0, 4, 8], [2, 4, 6]
+   * 
+   * And sometimes it's a tie
    */ 
-  
-  // Rows
-  let x = 0;
-  for(let i = 0; i < 3; i++) {
-    if(board[x] === board[x+1] && board[x+1] === board[x+2]) {
-      console.log(`${i+1} row completed! Game Done!`);
-      break;
-    }
-    // In the rows, by adding 3 to the variable 'x', you will
-    // change the row
-    x += 3;
-  }
 
-  // Columns
-  x = 0;
-  for(let i = 0; i < 3; i++) {
-    if(board[x] === board[x+3] && board[x+3] === board[x+6]) {
-      console.log(`${i+1} column completed! Game Done!`);
-      break;
-    }
-    // By adding 1 to the index, it's chanigng to the next columns.
-    x += 1;
-  }
+  let firstRow = [board[0], board[1], board[2]];
+  let secondRow = [board[3], board[4], board[5]];
+  let thirdRow = [board[6], board[7], board[8]];
+  let firstColumn = [board[0], board[3], board[6]];
+  let secondColumn = [board[1], board[4], board[7]];
+  let thirdColumn = [board[2], board[5], board[8]];
+  let firstDiagonal = [board[0], board[4], board[8]];
+  let secondDiagonal = [board[2], board[4], board[6]];
 
-  // Diagonals
-  x = 0;
-  for(let i = 0; i < 2; i++) {
-    if(board[x] === board[4] && board[4] === board[8-x]) {
-      console.log(`${i+1} diagonal direction completed! Game Done!`);
-      break;
-    }
+  let rows = [firstRow, secondRow, thirdRow];
+  let columns = [firstColumn, secondColumn, thirdColumn];
+  let diagonals = [firstDiagonal, secondDiagonal];
 
-    // By adding 2 to the index, it's changing to the different
-    // diagonal direction
-    x += 2;
+  rows.forEach((row, index) => {
+    // If there's no '' in the row!
+    if(row.every( val => val != '')) {
+      // Check if all elements are same
+      let isAllElementsSame = row.every( val => val === row[0]);
+      if(isAllElementsSame === true) {
+        console.log(`row ${index+1} is same!`);
+      }    
+    }
+  })
+
+  columns.forEach((column, index) => {
+    // If there's no '' in the row!
+    if(column.every( val => val != '')) {
+      // Check if all elements are same
+      let isAllElementsSame = column.every( val => val === column[0]);
+      if(isAllElementsSame === true) {
+        console.log(`column ${index+1} is same!`);
+      }    
+    }
+  })
+
+  diagonals.forEach((diagonal, index) => {
+    // If there's no '' in the row!
+    if(diagonal.every( val => val != '')) {
+      // Check if all elements are same
+      let isAllElementsSame = diagonal.every( val => val === diagonal[0]);
+      if(isAllElementsSame === true) {
+        console.log(`diagonal ${index+1} is same!`);
+      }    
+    }
+  })
+
+  /**
+   * The very last thing it needs to do is check if it's all filled
+   * Then it means, there was no winner.
+   */ 
+  let isBoardCompleted = board.every( val => val != '');
+  if(isBoardCompleted === true) {
+    console.log('Game Finished');
   }
 }
 
