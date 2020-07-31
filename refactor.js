@@ -84,6 +84,8 @@ const displayController = (function(doc) {
       })
     }
   }
+
+  Pubsub.subscribe('StartingTheGame', enableBoardClicking);
   
 
   return {
@@ -97,6 +99,11 @@ const displayController = (function(doc) {
 const game = (function(doc, playerFactory) {
   let player1 = playerFactory('Sanghak', 'X');
   let player2 = playerFactory('dooheum', 'O');
+
+  const startTheGame = () => {
+    // Here we will start the game!
+    Pubsub.emit('startingTheGame')
+  }
 
   const increaseGameCount = () => gameCount++; 
 
