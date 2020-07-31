@@ -5,12 +5,29 @@ const gameBoard = (function() {
   
   // Initialize the board with empty string
   const initializeBoard = () => {
+    console.log('gameBoard - initialized the board');
     for(let i = 0; i < 9; i++) {
       _board.push('');
     }
   }
 
+  /**
+   * It will receive the div as an argument, which has the custom
+   * attribute that's going to tell which div was clicked, so I can update
+   * the board easily.
+   */
+  const updateGameBoard = (div) => {
+    console.log(`updateGameBoard - ${div}`)
+    let index = div.getAttribute('data-spot-num');
+    console.log(`index: ${index}`)
+    _board[index] = index;
+    
+  }
+
   const getGameBoard = () => _board;
+
+  Pubsub.subscribe('startingTheGame', initializeBoard);
+  Pubsub.subscribe('divClicked', updateGameBoard)
 
   return {
     initializeBoard,
@@ -71,19 +88,22 @@ const displayController = (function(doc) {
   }
 
   const enableBoardClicking = () => {
+    console.log('Display Controller - board enabled');
     let gameBoard = doc.getElementById('game-board');
     for(let i = 0; i < gameBoard.children.length; i++) {
-      let spotOnTheBoard = gameBoard.children[i];
-      spotOnTheBoard.addEventListener('click', (event) => {
+      let div = gameBoard.children[i];
+      div.addEventListener('click', (event) => {
         // If the spot is not ocuppied then, only start the code
-        if(spotOnTheBoard.innerHTML === '') {
-          // Trigger the divClicked event. Passing the div that was clicked
-          Pubsub.emit('divClicked', spotOnTheBoard);
+        if(div.innerHTML === '') {
+          // Sending Pubsub events that div was clicked
+          Pubsub.emit('divClicked', div);
         }
         
       })
     }
   }
+
+  Pubsub.subscribe('startingTheGame', enableBoardClicking);
   
 
   return {
@@ -95,45 +115,20 @@ const displayController = (function(doc) {
 
 // game module, this will control the main flow of the game
 const game = (function(doc, playerFactory) {
-  let player1 = playerFactory('Sanghak', 'X');
-  let player2 = playerFactory('dooheum', 'O');
-
-  const increaseGameCount = () => gameCount++; 
-
-  const changePlayersTurn = () => {
-    // Increasing the gameCount will change the player
-    increaseGameCount();
-
-    // If it is even, player1
-    if(gameCount % 2 == 0) {
-      currentPlayer = player1;
-    } else {
-      currentPlayer = player2;
-    }
-
-    console.log(`Next turn is: ${currentPlayer}`)
-  }  
-
-  const getCurrentPlayer = () => {
-    return currentPlayer;
+  const startTheGame = () => {
+    // Let's start the game. Let displayController know that he should enable the click
+    Pubsub.emit('startingTheGame');
   }
-
-  const playerPlacingTheMarker = () => {
-    let player = getCurrentPlayer();
-    player.placeMarker()
-  }
-
-  // When divClicked event is triggered, it will return the current player.
-  Pubsub.subscribe('divClicked', getCurrentPlayer);
 
   return {
-    increaseGameCount,
-    changePlayersTurn,
-    getCurrentPlayer
+    startTheGame
   }
 })(document, Player);
 
-gameBoard.initializeBoard();
-displayController.render(gameBoard.getGameBoard());
-displayController.enableBoardClicking();
+// First when the game is started....
+// gameBoard - Initialize the game board
+// displayController - Enable the board to be clicked
+
+game.startTheGame();
+
 
