@@ -53,5 +53,8 @@ Modular Javascript #2: [12:24](https://youtu.be/m-NYyst_tiY?list=PLoYCgNOIyGABs-
 - [Code about PubSub Design Pattern](https://gist.github.com/learncodeacademy/777349747d8382bfb722)
 
 
+<!-- 10:30~12:30 4 tomato -->
+
+
 
 

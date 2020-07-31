@@ -51,6 +51,8 @@ const Player = (name, marker) => {
   const placeMarker = (div) => {
     console.log(`${_name} is clicking`)
     div.innerHTML = _marker;
+    Pubsub.unsubscribe('divClicked', placeMarker);
+    Pubsub.emit('placedMarker');
   }
 
   // It will react to the 'divClicked' event, and executing placeMarker function.
@@ -76,7 +78,7 @@ const displayController = (function(doc) {
 
   /**
    * To render the actual game board to the webpage, you need to have a parameter
-   * to receive the gameboard, and rende that gameboard to the web.
+   * to receive the gameboard, and render that gameboard to the web.
    */
   const render = (gameBoard) => {
     let gameBoardArray = gameBoard;
@@ -115,10 +117,33 @@ const displayController = (function(doc) {
 
 // game module, this will control the main flow of the game
 const game = (function(doc, playerFactory) {
+  let player1 = Player('Sanghak', 'X');
+  let player2 = Player('Dooheum', 'O');
+  let currentPlayer = player1;
+  
+
+  let gameCount = 0;
+
+  const changeThePlayer = () => {
+    gameCount++;
+    
+    if(gameCount % 2 === 1) {
+      currentPlayer = player2;
+      Pubsub.subscribe('divClicked', currentPlayer.placeMarker);
+    } else {
+      currentPlayer = player1;
+      Pubsub.subscribe('divClicked', currentPlayer.placeMarker);
+    }
+  }
+  
+
   const startTheGame = () => {
     // Let's start the game. Let displayController know that he should enable the click
     Pubsub.emit('startingTheGame');
   }
+
+  Pubsub.subscribe('divClicked', currentPlayer.placeMarker);
+  Pubsub.subscribe('placedMarker', changeThePlayer);
 
   return {
     startTheGame
