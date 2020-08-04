@@ -21,6 +21,7 @@ gameStartBtn.addEventListener('click', (event) => {
     // Make start-display gone, and make gameBoard appears
     startDisplay.style.display = "none";
     gameBoardWeb.style.display = "grid";
+    Pubsub.emit('startButtonClicked');
   } else {
     // Name is not completed....
   }

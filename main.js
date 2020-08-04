@@ -1,109 +1,3 @@
-const elements = (function() {
-  let gameBoard = document.getElementById('game-board');
-
-  return {
-    gameBoard
-  }
-})();
-
-// Gameboard Module
-const gameBoard = (function() {
-
-  let _board = 
-  [
-    '', '', '',
-    '', '', '',
-    '', '', ''
-  ];
-
-  const getGameBoard = () => _board;
-
-  /**  
-   * This function checks for the winner.
-   * The requirement for the win is to have 3 same
-   * characters in a row, or when all the board is full,
-   * it's a tie.
-   */ 
-  const checkTheWinner = () => {
-    
-    /**
-     * row - 0-2, 3-5, 6-8
-     * column - [0,3,6], [1,4,7], [2,5,8]
-     * diagonal - [0, 4, 8], [2, 4, 6] */ 
-    let x = 0;
-    for(let i=0; i<3; i++) {
-      if(_board[x] === _board[x+1] && _board[x] === _board[x+2]) {
-        console.log(x);
-        console.log('A row has all same characters!')
-      }
-    }
-  }
-
-  // Make the GameBoard as same as the board in the display
-  const updateGameBoard = (board) => {
-    for(let i = 0; i < board.children.length; i++) {
-      _board[i] = board.children[i].innerHTML;
-    }
-  }
-
-  return {
-    getGameBoard,
-    updateGameBoard,
-    checkTheWinner
-  }
-})();
-
-
-
-// Display Module
-const displayController = (function() {
-  
-  let gameBoard = elements.gameBoard;
-
-  const getDisplayBoard = () => {
-    return document.getElementById('game-board');
-  }
-
-   
-  const placeMarker = (div, marker) => {
-    // If it's only empty, you can place the marker
-    if(div.innerHTML === '') {
-      div.innerHTML = marker;
-    } else {
-      console.log('It is taken!');
-    }
-  }
-
-  const enableBoardClick = () => {
-    // This will enable the gameBoard to be clicked, and it will return
-    // the div element that was clicked
-    for(i = 0; i < gameBoard.children.length; i++) {
-      let div = gameBoard.children[i];
-      div.addEventListener('click', (event) => {
-        placeMarker(div, game.getCurrentPlayer().getMarker());
-        game.increaseGameCount();
-      })
-    }
-  }
-
-  // This function will take an array which is a gameboard,
-  // And then it will display the gameboard on the screen.
-  const displayGameBoard = (gameBoard) => {
-    let gameBoardLength = gameBoard.length;
-    for(let i=0; i < gameBoardLength; i++) {
-      elements.gameBoard.children[i].innerHTML = gameBoard[i]
-    }
-  }
-
-  return {
-    gameBoard,
-    getDisplayBoard,
-    placeMarker,
-    enableBoardClick,
-    displayGameBoard
-  }
-})();
-
 // Factory Functions for making players
 const Player = (name, marker) => {
   let _name = name;
@@ -112,7 +6,14 @@ const Player = (name, marker) => {
   const getName = () => _name;
   const getMarker = () => _marker;
 
-  const p
+  /** 
+   * It will place player's own marker to the div that was passed
+   * as an argument
+   */
+  const placeMarker = (div) => {
+    console.log('PLAYER - I heard that divClicked event was announced. Place Marker');
+    div.innerHTML = _marker;
+  }
 
   return {
     getName,
@@ -120,63 +21,121 @@ const Player = (name, marker) => {
   }
 }
 
-// Game Module, that will control the flow of the game
-const game = (function () {
-
-  let _gameCount = 0;
-  let _players = []
-  let _currentPlayer = '';
-  let _currentMarker = '';
+// Display Module, everything related with display
+const displayController = (function(doc) {
   
-  // Return all players that are there
-  const getAllPlayers = () => _players;
-
-  // Return the current players depending on the gameCount
-  const getCurrentPlayer = () => {
-    if(_gameCount % 2 === 0) {
-      _currentPlayer = _players[0];
-    } else {
-      _currentPlayer = _players[1];
+  // This will get the game-board from HTML
+  const getGameBoardFromWeb = () => {
+    // If we succesfully retrieved document object model, then get the board
+    if(!!doc && 'getElementById' in doc) {
+      return doc.getElementById('game-board');
     }
-
-    return _currentPlayer;
   }
 
-  // Receives an instance of factory function 'Player'
-  const addPlayer = (name, marker) => {
-    _players.push(Player(name, marker));
-  };
+  const enableBoardClicking = () => {
+    console.log('DISPLAYCONTROLLER - I heard STARTTHEGAME event was annoucned. Enable Board');
+    // Get the gameboard
+    let gameBoard = doc.getElementById('game-board');
+
+    // Enable every div for click
+    for(let i = 0; i < gameBoard.children.length; i++) {
+      let div = gameBoard.children[i];
+      div.addEventListener('click', (event) => {
+        // If only spot is not occupied, announce that div was clicked
+        if(div.innerHTML === '') {
+          Pubsub.emit('divClicked', div);
+        }
+      })
+    }
+  }
+
+  // Listening for if the game has been started.
+  Pubsub.subscribe('startTheGame', enableBoardClicking);
   
-  const resetPlayers = () => _players = [];
-  const increaseGameCount = () => _gameCount++;
 
   return {
-    getAllPlayers,
-    getCurrentPlayer,
-    addPlayer,
-    getCurrentPlayer,
-    resetPlayers,
-    increaseGameCount,
+    getGameBoardFromWeb,
+    enableBoardClicking
+  }
+})(document);
+
+// gameBoard Module
+const gameBoard = (function() {
+  // Main Game Board
+  let _board = []
+  
+  // Initialize the board with empty string
+  const initializeBoard = () => {
+    console.log('GAMEBOARD - I heard STARTTHEGAME event was annoucned. Initialize Board');
+    for(let i = 0; i < 9; i++) {
+      _board.push('');
+    }
+  }
+
+  /**
+   * It will receive the div as an argument, which has the custom
+   * attribute that's going to tell which div was clicked, so I can update
+   * the board easily.
+   */
+  const updateGameBoard = (div) => {
+    console.log(`updateGameBoard - ${div}`)
+    let index = div.getAttribute('data-spot-num');
+    console.log(`index: ${index}`)
+    _board[index] = index;
+    
+  }
+
+  const getGameBoard = () => _board;
+
+  Pubsub.subscribe('startTheGame', initializeBoard);
+
+  return {
+    initializeBoard,
+    getGameBoard
   }
 })();
 
-// Adding Players
-game.addPlayer('Sanghak', 'X');
-game.addPlayer('Seongkyu', 'O');
+// game module, this will control the main flow of the game
+const game = (function(doc, playerFactory) {
+  let _player1 = playerFactory('Sanghak', 'X');
+  let _player2 = playerFactory('Dooheum', 'O');
+  let _currentPlayer = '';
+  let _gameCount = 0;
 
-displayController.enableBoardClick();
+  const setTurnForPlayer = () => {
+    // if it's the first turn, it's the player1
+    if(_gameCount === 0) {
+      console.log('GAME - I heard STARTTHEGAME event was annoucned. Set turn for player');
+      console.log(`${_player1.getName()} is the current player.`);
+      // Set the currentPlayer
+      _currentPlayer = _player1;
+      _gameCount++;
+    } else {
+      // If it's not the first turn
+      if(_gameCount % 2 === 1) {
+        console.log(`${_player2.getName()} is the current player.`);
+        _currentPlayer = _player2;
+      } else {
+        console.log(`${_player1.getName()} is the current player.`)
+        _currentPlayer = _player1;
+      }
+    }
 
+    
+    Pubsub.subscribe('divClicked', _currentPlayer.placeMarker);
+    console.log('GAME CURRENTPLAYER - listening for divClicked event');
+  }
 
+  const startTheGame = () => {
+    console.log('GAME - I heard that startButton was clicked, let\'s start the game');
+    // Let every components know that game has been started
+    Pubsub.emit('startTheGame');
+  }
 
+  Pubsub.subscribe('startButtonClicked', startTheGame);
+  Pubsub.subscribe('startTheGame', setTurnForPlayer);
 
-
-
-
-
-
-
-
-
-
-
-
+  return {
+    startTheGame
+  }
+})(document, Player);

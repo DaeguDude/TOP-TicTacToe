@@ -32,13 +32,24 @@ const Pubsub = (() => {
   }
 
   const emit = (eventName, data) => {
+    if(data === undefined) {
+      console.log(`Making an broadcast about ${eventName}`);
+    } else {
+      console.log(`Making an broadcast about ${eventName} with ${data}`)
+    }
+    
     /**
      * forEach executes a provided function for every element in the array
      * This way, you can pass some argument for the functions in the specific
      * event
      */
     events[eventName].forEach((func) => {
-      func(data);  
+      // if data was provided, only then pass it as an argument
+      if(data != undefined) {
+        func(data);
+      } else {
+        func();
+      }
     })
   }
 
