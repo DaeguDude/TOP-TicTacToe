@@ -2,7 +2,7 @@
 
 let board = [
   'X', 'O', 'X',
-  'O', 'O', 'X',
+  'O', 'X', 'X',
   'X', 'X', 'O'
 ]
 
@@ -30,38 +30,63 @@ const checkTheWinner = () => {
   let columns = [firstColumn, secondColumn, thirdColumn];
   let diagonals = [firstDiagonal, secondDiagonal];
 
-  rows.forEach((row, index) => {
-    // If there's no '' in the row!
+  // rows.forEach((row, index) => {
+  //   // If there's no '' in the row!
+  //   if(row.every( val => val != '')) {
+  //     // Check if all elements are same
+  //     let isAllElementsSame = row.every( val => val === row[0]);
+  //     if(isAllElementsSame === true) {
+  //       console.log(`row ${index+1} is same!`);
+  //     }    
+  //   }
+  // })
+
+  for(let i = 0; i < rows.length; i++) {
+    let row = rows[i];
     if(row.every( val => val != '')) {
       // Check if all elements are same
       let isAllElementsSame = row.every( val => val === row[0]);
       if(isAllElementsSame === true) {
-        console.log(`row ${index+1} is same!`);
+        console.log(`row ${i+1} is same!`);
+        return true;
       }    
     }
-  })
+  }
 
-  columns.forEach((column, index) => {
-    // If there's no '' in the row!
+  // columns.forEach((column, index) => {
+  //   // If there's no '' in the row!
+  //   if(column.every( val => val != '')) {
+  //     // Check if all elements are same
+  //     let isAllElementsSame = column.every( val => val === column[0]);
+  //     if(isAllElementsSame === true) {
+  //       console.log(`column ${index+1} is same!`);
+  //     }    
+  //   }
+  // })
+
+  for(let i = 0; i < columns.length; i++) {
+    let column = columns[i];
     if(column.every( val => val != '')) {
       // Check if all elements are same
       let isAllElementsSame = column.every( val => val === column[0]);
       if(isAllElementsSame === true) {
-        console.log(`column ${index+1} is same!`);
+        console.log(`column ${i+1} is same!`);
+        return true;
       }    
     }
-  })
+  }
 
-  diagonals.forEach((diagonal, index) => {
-    // If there's no '' in the row!
+  for(let i = 0; i < diagonals.length; i++) {
+    let diagonal = diagonals[i];
     if(diagonal.every( val => val != '')) {
       // Check if all elements are same
       let isAllElementsSame = diagonal.every( val => val === diagonal[0]);
       if(isAllElementsSame === true) {
-        console.log(`diagonal ${index+1} is same!`);
+        console.log(`diagonal ${i+1} is same!`);
+        return true;
       }    
     }
-  })
+  }
 
   /**
    * The very last thing it needs to do is check if it's all filled
@@ -69,12 +94,15 @@ const checkTheWinner = () => {
    */ 
   let isBoardCompleted = board.every( val => val != '');
   if(isBoardCompleted === true) {
-    console.log('Game Finished');
+    console.log('Game Finished, it is a tie');
+  } else {
+    console.log('Board is not filled and no winner yet');
+    return false;
   }
 }
 
 
-checkTheWinner();
+console.log(checkTheWinner());
 
 
 
