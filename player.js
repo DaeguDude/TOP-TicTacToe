@@ -11,9 +11,18 @@ const Player = (name, marker) => {
    * as an argument
    */
   const placeMarker = (div) => {
+    console.log(`${_name} - I heard that divClicked event was announced. Place Marker`);
     div.innerHTML = _marker;
+    Pubsub.emit('placedMarker', div);
+
+    // After all of that, currentPlayer should unsubscribe
+    console.log(`${_name} is unsubscribing to divClicked event`);
+    Pubsub.unsubscribe('divClicked', placeMarker);
   }
 
-  // Listening for the 'divClicked' events.
-  Pubsub.subscribe('divClicked', placeMarker);
+  return {
+    getName,
+    getMarker,
+    placeMarker
+  }
 }

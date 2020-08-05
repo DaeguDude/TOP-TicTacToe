@@ -9,20 +9,8 @@ const displayController = (function(doc) {
     }
   }
 
-  // /**
-  //  * To render the actual game board to the webpage, you need to have a parameter
-  //  * to receive the gameboard, and render that gameboard to the web.
-  //  */
-  // const render = (gameBoard) => {
-  //   let gameBoardArray = gameBoard;
-
-  //   let gameBoardWeb = getGameBoardFromWeb();
-  //   for(let i = 0; i < gameBoardWeb.children.length; i++) {
-  //     gameBoardWeb.children[i].innerHTML = gameBoardArray[i];
-  //   }
-  // }
-
   const enableBoardClicking = () => {
+    console.log('DISPLAYCONTROLLER - I heard STARTTHEGAME event was annoucned. Enable Board');
     // Get the gameboard
     let gameBoard = doc.getElementById('game-board');
 
@@ -39,6 +27,7 @@ const displayController = (function(doc) {
   }
 
   // Listening for if the game has been started.
+  console.log('DISPLAYCONTROLLER: listening for startTheGame event.')
   Pubsub.subscribe('startTheGame', enableBoardClicking);
   
 

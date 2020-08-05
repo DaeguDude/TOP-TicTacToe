@@ -5,7 +5,7 @@ const gameBoard = (function() {
   
   // Initialize the board with empty string
   const initializeBoard = () => {
-    console.log('gameBoard - initialized the board');
+    console.log('GAMEBOARD - I heard STARTTHEGAME event was annoucned. Initialize Board');
     for(let i = 0; i < 9; i++) {
       _board.push('');
     }
@@ -17,16 +17,18 @@ const gameBoard = (function() {
    * the board easily.
    */
   const updateGameBoard = (div) => {
-    console.log(`updateGameBoard - ${div}`)
+    console.log('GAMEBOARD: I heard placedMarker event was announced. updateGameBoard');
     let index = div.getAttribute('data-spot-num');
-    console.log(`index: ${index}`)
-    _board[index] = index;
-    
+    _board[index] = div.innerHTML;
   }
 
   const getGameBoard = () => _board;
 
+  console.log('GAMEBOARD: listening for startTheGame event.');
   Pubsub.subscribe('startTheGame', initializeBoard);
+
+  console.log('GAMEBOARD: listening for placedMarker event.');
+  Pubsub.subscribe('placedMarker', updateGameBoard);
 
   return {
     initializeBoard,
