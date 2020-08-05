@@ -2,6 +2,8 @@ const Pubsub = (() => {
   let events = {};
 
   const subscribe = (eventName, fn) => {
+    console.log(`Someone just subscribed to ${eventName} event.`);
+    console.log('\n');
     // If events already exist
     if(events[eventName] != undefined) {
       // Pass the events[eventName] value, thus passing the array
@@ -17,6 +19,8 @@ const Pubsub = (() => {
   }
 
   const unsubscribe = (eventName, fn) => {
+    console.log(`Someone just unsubscribed to ${eventName} event.`);
+    console.log('\n');
     // If that specific event exist in pubsub,
     if(events[eventName] != undefined) {
       // We will loop through that event and check the specified

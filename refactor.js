@@ -52,7 +52,7 @@ const Player = (name, marker) => {
     console.log(`${_name} is clicking`)
     div.innerHTML = _marker;
     Pubsub.unsubscribe('divClicked', placeMarker);
-    Pubsub.emit('placedMarker');
+    // Pubsub.emit('placedMarker');
   }
 
   // It will react to the 'divClicked' event, and executing placeMarker function.
@@ -100,7 +100,6 @@ const displayController = (function(doc) {
           // Sending Pubsub events that div was clicked
           Pubsub.emit('divClicked', div);
         }
-        
       })
     }
   }
@@ -119,21 +118,33 @@ const displayController = (function(doc) {
 const game = (function(doc, playerFactory) {
   let player1 = Player('Sanghak', 'X');
   let player2 = Player('Dooheum', 'O');
-  let currentPlayer = player1;
-  
-
+  let currentPlayer = '';
   let gameCount = 0;
 
-  const changeThePlayer = () => {
-    gameCount++;
-    
-    if(gameCount % 2 === 1) {
-      currentPlayer = player2;
-      Pubsub.subscribe('divClicked', currentPlayer.placeMarker);
-    } else {
+  const getCurrentPlayer = () => {
+    console.log(currentPlayer.getName());
+  }
+
+  const getCurrentGameCount = () => {
+    console.log(gameCount);
+  }
+
+  const setTurnForPlayer = () => {
+    console.log('setTurnForPlayer been called');
+    // If it's the first turn
+    if(gameCount == 0) {
       currentPlayer = player1;
       Pubsub.subscribe('divClicked', currentPlayer.placeMarker);
+      gameCount++;
     }
+    
+    // if(gameCount % 2 === 1) {
+    //   currentPlayer = player2;
+    //   Pubsub.subscribe('divClicked', currentPlayer.placeMarker);
+    // } else {
+    //   currentPlayer = player1;
+    //   Pubsub.subscribe('divClicked', currentPlayer.placeMarker);
+    // }
   }
   
 
@@ -143,17 +154,22 @@ const game = (function(doc, playerFactory) {
   }
 
   Pubsub.subscribe('divClicked', currentPlayer.placeMarker);
-  Pubsub.subscribe('placedMarker', changeThePlayer);
+  Pubsub.subscribe('startingTheGame', setTurnForPlayer);
+  // Pubsub.subscribe('placedMarker', setTurnForPlayer);
+
 
   return {
-    startTheGame
+    startTheGame,
+    getCurrentGameCount,
+    getCurrentPlayer
   }
 })(document, Player);
 
-// First when the game is started....
-// gameBoard - Initialize the game board
-// displayController - Enable the board to be clicked
-
+/**
+ * GameBoard Initialized with ' '
+ * Enable the gameBoard to be clicked
+ * SET THE CURRENT PLAYER
+ */
 game.startTheGame();
 
 
