@@ -21,9 +21,16 @@ const gameBoard = (function() {
 
     console.log('GAMEBOARD: I heard placedMarker event was announced. updateGameBoard');
     _board[index] = div.innerHTML;
+
     checkTheWinner();
   }
 
+  /**
+   * Returns 3 values
+   *  - finished: tie
+   *  - win: there's a winner
+   *  - continue: there's no winner and not filled
+   */
   const checkTheWinner = () => {
     /**
      * There are 8 ways to win in the tic-tac-toe games.
@@ -48,7 +55,9 @@ const gameBoard = (function() {
     let columns = [firstColumn, secondColumn, thirdColumn];
     let diagonals = [firstDiagonal, secondDiagonal];
 
-    let isBoardCompleted = '';
+    // When there is a winner or a tie, we change it to the value 'true'
+    let isThereWinner = false;
+    let isItTie = false;
   
     for(let i = 0; i < rows.length; i++) {
       let row = rows[i];
@@ -56,7 +65,7 @@ const gameBoard = (function() {
         // Check if all elements are same
         let isAllElementsSame = row.every( val => val === row[0]);
         if(isAllElementsSame === true) {
-          console.log(`row ${i+1} is same!`);
+          isThereWinner = true;
         }    
       }
     }
@@ -67,8 +76,7 @@ const gameBoard = (function() {
         // Check if all elements are same
         let isAllElementsSame = column.every( val => val === column[0]);
         if(isAllElementsSame === true) {
-          console.log(`column ${i+1} is same!`);
-          return true;
+          isThereWinner = true;
         }    
       }
     }
@@ -79,8 +87,7 @@ const gameBoard = (function() {
         // Check if all elements are same
         let isAllElementsSame = diagonal.every( val => val === diagonal[0]);
         if(isAllElementsSame === true) {
-          console.log(`diagonal ${i+1} is same!`);
-          return true;
+          isThereWinner = true;
         }    
       }
     }
@@ -89,14 +96,19 @@ const gameBoard = (function() {
      * The very last thing it needs to do is check if it's all filled
      * Then it means, there was no winner.
      */ 
-    isBoardCompleted = _board.every( val => val != '');
+    let isBoardCompleted = _board.every( val => val != '');
     if(isBoardCompleted === true) {
-      console.log('Game Finished, no winner, it is a tie');
-      return true;
-    } else {
-      console.log('Board is not filled and no winner yet');
-      return false;
+      isItTie = true;
     }
+
+    if(isItTie) {
+      Pubsub.emit('finishGame', 'tie');
+    } 
+
+    if(isThereWinner) {
+      Pubsub.emit('finishGame', 'win');
+    }
+
   }
 
   const getGameBoard = () => _board;

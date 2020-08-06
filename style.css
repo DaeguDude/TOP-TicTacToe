@@ -167,6 +167,29 @@ header #title {
 }
 
 /* ---------------------------------------- */
+/* RESULT DISPLAY */
+#result-display {
+  display: none;
+}
+
+/* css for when displaying the result */
+.result-display-after {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 80%;
+  height: 50%;
+  background-color: black;
+  color: white;
+  font-size: 3em;
+}
+
+ 
+
+
+
+/* ---------------------------------------- */
 /* FOOTER */
 
 footer {
