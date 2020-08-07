@@ -4,6 +4,8 @@ const displayController = (function(doc) {
   let gameBoardWeb = doc.getElementById('game-board');
   let startDisplay = doc.getElementById('start-display');
   let resultDisplay = doc.getElementById('result-display');
+  let restartBtn = doc.getElementById('restart-btn');
+
 
   // If 'START' button is clicked, we will start the game
   gameStartBtn.addEventListener('click', (event) => {
@@ -23,6 +25,23 @@ const displayController = (function(doc) {
       Pubsub.emit('startButtonClicked');
     }
   })
+
+  const restartTheGame = () => {
+    // Setting interface to original state
+    gameBoardWeb.style.display = "none";
+    resultDisplay.style.display = "none";
+    startDisplay.style.display = "flex";
+
+    // How to remove input value?
+    let playerOneNameInput = doc.getElementById('player1').children[1];
+    let playerTwoNameInput = doc.getElementById('player2').children[1];
+    playerOneNameInput.value = '';
+    playerTwoNameInput.value = '';
+    
+  }
+  // If 'RESTART' button is clicked, we will restart the game
+  restartBtn.addEventListener('click', restartTheGame);
+
   
   // This will get the game-board from HTML
   const getGameBoardFromWeb = () => {
@@ -54,14 +73,16 @@ const displayController = (function(doc) {
       gameBoardWeb.style.display = "none";
       resultDisplay.style.display = "flex";
       resultDisplay.classList.add('result-display-after');
-      resultDisplay.innerHTML = "Man! It is a tie. Good game";
+      // Write to span
+      resultDisplay.children[0].innerHTML = "Man! It is a tie. Good game";
 
       console.log('DC - It is a tie!');
     } else {
       gameBoardWeb.style.display = "none";
       resultDisplay.style.display = "flex";
       resultDisplay.classList.add('result-display-after');
-      resultDisplay.innerHTML = result + " has won! Good Game"
+      // Write to span
+      resultDisplay.children[0].innerHTML = result + " has won! Good Game"
     }
   }
 

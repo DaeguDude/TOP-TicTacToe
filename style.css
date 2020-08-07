@@ -9,6 +9,18 @@ body {
   font-family: 'Do Hyeon', sans-serif;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:focus {
+  outline: none;
+}
+
 #container {
   background: #313152;
   height: 100vh;
@@ -112,9 +124,6 @@ header #title {
   
 }
 
-
-
-
 #start-start-btn {  
   display: flex;
   justify-content: center;
@@ -132,17 +141,7 @@ header #title {
   border: none;
 }
 
-#start-start-btn button:hover {
-  cursor: pointer;
-}
 
-#start-start-btn button:active {
-  transform: scale(0.95);
-}
-
-#start-start-btn button:focus {
-  outline: none;
-}
 
 
 
@@ -177,6 +176,7 @@ header #title {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   width: 80%;
   height: 50%;
@@ -185,6 +185,16 @@ header #title {
   font-size: 3em;
 }
 
+#restart-btn {
+  min-width: 180px;
+  min-height: 80px;
+  margin: 20px;
+  border-radius: 12px;
+  background: #fff;
+  color: #000;
+  font-size: 1.6rem;
+  border: none;
+}
  
 
 

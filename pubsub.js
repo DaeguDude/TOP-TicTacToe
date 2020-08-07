@@ -1,6 +1,10 @@
 const Pubsub = (() => {
   let events = {};
 
+  const resetAllEvents = () => {
+    events = {};
+  }
+
   const subscribe = (eventName, fn) => {
     console.log(`Someone just subscribed to ${eventName} event.`);
     console.log('\n');
@@ -65,7 +69,8 @@ const Pubsub = (() => {
     subscribe,
     unsubscribe,
     emit,
-    sayEvents
+    sayEvents,
+    resetAllEvents,
   }
 })();
 
