@@ -2,6 +2,14 @@
 const gameBoard = (function() {
   // Main Game Board
   let _board = []
+
+
+  const startTheGame = () => {
+    
+
+    console.log('GAMEBOARD: listening for placedMarker event.');
+    Pubsub.subscribe('placedMarker', updateGameBoard);
+  }
   
   // Initialize the board with empty string
   const initializeBoard = () => {
@@ -114,10 +122,7 @@ const gameBoard = (function() {
   const getGameBoard = () => _board;
 
   console.log('GAMEBOARD: listening for startTheGame event.');
-  Pubsub.subscribe('startTheGame', initializeBoard);
-
-  console.log('GAMEBOARD: listening for placedMarker event.');
-  Pubsub.subscribe('placedMarker', updateGameBoard);
+  Pubsub.subscribe('startTheGame', startTheGame);
 
   return {
     initializeBoard,

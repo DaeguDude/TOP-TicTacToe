@@ -21,8 +21,7 @@ const displayController = (function(doc) {
       gameBoardWeb.style.display = "grid";
 
       // Let everybody know time to start the game
-      Pubsub.emit('makePlayers', players)
-      Pubsub.emit('startButtonClicked');
+      Pubsub.emit('startButtonClicked', players);
     }
   })
 

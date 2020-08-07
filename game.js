@@ -37,11 +37,16 @@ const game = (function(doc, playerFactory) {
   const startTheGame = () => {
     console.log('GAME: I heard that startButton was clicked, let\'s start the game');
     
-    console.log('GAME: listening for placedMarker event.');
-    Pubsub.subscribe('placedMarker', setTurnForPlayer);
+    Pubsub.subscribe('startButtonClicked', makePlayers);
+
+    console.log('GAME: listening for startTheGame event.')
+    Pubsub.subscribe('startTheGame', setTurnForPlayer);
   
-    console.log('GAME: listening for finishGame event.');
-    Pubsub.subscribe('finishGame', endTheGame);
+    // console.log('GAME: listening for placedMarker event.');
+    // Pubsub.subscribe('placedMarker', setTurnForPlayer);
+  
+    // console.log('GAME: listening for finishGame event.');
+    // Pubsub.subscribe('finishGame', endTheGame);
 
     // Let every components know that game has been started
     Pubsub.emit('startTheGame');
@@ -68,11 +73,7 @@ const game = (function(doc, playerFactory) {
   console.log('GAME: listening for startButtonClicked event');
   Pubsub.subscribe('startButtonClicked', startTheGame);
 
-  console.log('GAME: listening for makePlayers event');
-  Pubsub.subscribe('makePlayers', makePlayers);
   
-  console.log('GAME: listening for startTheGame event.')
-  Pubsub.subscribe('startTheGame', setTurnForPlayer);
 
   
 
