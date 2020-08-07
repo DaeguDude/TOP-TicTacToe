@@ -1,0 +1,228 @@
+/* css reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Do Hyeon', sans-serif;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:focus {
+  outline: none;
+}
+
+#container {
+  background: #313152;
+  height: 100vh;
+  min-width: 1050px;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------------- */
+/* HEADER */
+
+header {
+  background: black;
+  
+  /* flex-grow: How much of the positive free space does this item get?
+   * flex-shrink: How much negative free space can be removed from this item?
+   * flex-basis: What is the size of the item before growing and shrinking happe
+    ns? */
+  min-height: 150px;
+
+  flex: 1.5 1 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header #title {
+  font-size: 3em;
+  color: white;
+}
+
+/* ---------------------------------------- */
+/* MAIN */
+
+#main {
+  background: #ffffff;
+  min-height: 550px;
+
+  flex: 8 1 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ---------------------------------------- */
+/* START DISPLAY 
+  This is for users to put thier names or something
+*/
+#start-display {
+  height: 100%;
+  width: 100%;
+  margin: 0 10%;
+
+  padding: 5%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.start-items {
+  flex: 1 1 0;
+}
+
+#start-title {
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#start-players {  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-players-item {
+  width: 300px;
+  height: 100px;
+  margin: 0 30px;
+
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.start-players-item span {
+  flex: 1 1 0;
+  font-size: 2em;
+}
+
+.start-players-item input {
+  flex: 1 1 0;
+  border-radius: 2px;
+  font-size: 1.3em;
+  padding: 2px;
+  
+}
+
+#start-start-btn {  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#start-start-btn button {
+  min-width: 180px;
+  min-height: 80px;
+  margin: 20px;
+  border-radius: 12px;
+  background: #000;
+  color: #fff;
+  font-size: 1.3em;
+  border: none;
+}
+
+
+
+
+
+
+/* ---------------------------------------- */
+/* MAIN GAME BOARD */
+
+#game-board {
+  border: 1px solid black;
+
+  display: none;
+
+  grid-template-columns: repeat(3, 150px);
+  grid-template-rows: repeat(3, 150px);
+}
+
+#game-board div {
+  border: 1px solid black;
+  text-align: center;
+  line-height: 150px;
+  font-size: 150px;
+}
+
+/* ---------------------------------------- */
+/* RESULT DISPLAY */
+/* #result-display {
+  display: none;
+} */
+
+/* css for when displaying the result */
+.result-display-after {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  width: 80%;
+  height: 50%;
+  background-color: black;
+  color: white;
+  font-size: 3em;
+}
+
+#restart-btn {
+  min-width: 180px;
+  min-height: 80px;
+  margin: 20px;
+  border-radius: 12px;
+  background: #fff;
+  color: #000;
+  font-size: 1.6rem;
+  border: none;
+}
+ 
+
+
+
+/* ---------------------------------------- */
+/* FOOTER */
+
+footer {
+  background: #030303;
+  min-height: 100px;
+  flex: 0.5 1 auto;
+}
+
+#footer-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fab,
+.far {
+  color: white;
+  font-size: 3em;
+  padding: 5px;
+}
+
+
+
+
+
