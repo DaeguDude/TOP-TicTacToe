@@ -5,6 +5,10 @@ const game = (function(doc, playerFactory) {
   let _currentPlayer = '';
   let _gameCount = 0;
 
+  const restartGameCount = () => {
+    _gameCount = 0;
+  }
+
   const makePlayers = (playersArr) => {
     console.log(`makePlayers running: ${playersArr}`)
     _player1 = playerFactory(playersArr[0], 'X');
@@ -34,22 +38,15 @@ const game = (function(doc, playerFactory) {
     Pubsub.subscribe('divClicked', _currentPlayer.placeMarker);
   }
 
-  const startTheGame = () => {
+  const startTheGame = (players) => {
     console.log('GAME: I heard that startButton was clicked, let\'s start the game');
     
-    Pubsub.subscribe('startButtonClicked', makePlayers);
+    makePlayers(players);
+    restartGameCount();
+    setTurnForPlayer();
 
-    console.log('GAME: listening for startTheGame event.')
-    Pubsub.subscribe('startTheGame', setTurnForPlayer);
-  
-    // console.log('GAME: listening for placedMarker event.');
-    // Pubsub.subscribe('placedMarker', setTurnForPlayer);
-  
-    // console.log('GAME: listening for finishGame event.');
-    // Pubsub.subscribe('finishGame', endTheGame);
-
-    // Let every components know that game has been started
-    Pubsub.emit('startTheGame');
+    Pubsub.subscribe('placedMarker', setTurnForPlayer);
+    Pubsub.subscribe('finishGame', endTheGame);
   }
 
   const endTheGame = (result) => {
@@ -71,7 +68,7 @@ const game = (function(doc, playerFactory) {
   }
 
   console.log('GAME: listening for startButtonClicked event');
-  Pubsub.subscribe('startButtonClicked', startTheGame);
+  Pubsub.subscribe('startTheGame', startTheGame);
 
   
 

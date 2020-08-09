@@ -2,7 +2,18 @@ const Pubsub = (() => {
   let events = {};
 
   const resetAllEvents = () => {
-    events = {};
+    // Reset everything except start and restart events...
+
+    // start events
+    for(const prop in events) {
+      // If it is not 'startTheGame' event, delete it
+      if(prop != 'startTheGame' && prop != 'restartTheGame') {
+        delete events[prop];
+      }
+    }
+    
+    
+
   }
 
   const subscribe = (eventName, fn) => {
@@ -65,6 +76,9 @@ const Pubsub = (() => {
     console.log(events);
   }
 
+  // This will reset all events
+  subscribe('restartTheGame', resetAllEvents);
+
   return {
     subscribe,
     unsubscribe,
@@ -73,4 +87,6 @@ const Pubsub = (() => {
     resetAllEvents,
   }
 })();
+
+
 

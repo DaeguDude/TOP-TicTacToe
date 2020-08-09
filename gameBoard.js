@@ -5,7 +5,7 @@ const gameBoard = (function() {
 
 
   const startTheGame = () => {
-    
+    initializeBoard();
 
     console.log('GAMEBOARD: listening for placedMarker event.');
     Pubsub.subscribe('placedMarker', updateGameBoard);

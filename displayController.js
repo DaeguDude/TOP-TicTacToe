@@ -21,9 +21,16 @@ const displayController = (function(doc) {
       gameBoardWeb.style.display = "grid";
 
       // Let everybody know time to start the game
-      Pubsub.emit('startButtonClicked', players);
+      Pubsub.emit('startTheGame', players);
     }
   })
+
+  const startTheGame = () => {
+    enableBoardClicking();
+
+    console.log('DISPLAYCONTROLLER: listening for displayResult event.')
+    Pubsub.subscribe('displayResult', displayResult);
+  }
 
   const restartTheGame = () => {
     // Setting interface to original state
@@ -31,13 +38,20 @@ const displayController = (function(doc) {
     resultDisplay.style.display = "none";
     startDisplay.style.display = "flex";
 
-    // How to remove input value?
+    // Empty the player input
     let playerOneNameInput = doc.getElementById('player1').children[1];
     let playerTwoNameInput = doc.getElementById('player2').children[1];
     playerOneNameInput.value = '';
     playerTwoNameInput.value = '';
     
+    // Empty the gameBoard
+    emptyGameBoardWeb();
+
+    // restart the game
+    Pubsub.emit('restartTheGame');
   }
+
+  
   // If 'RESTART' button is clicked, we will restart the game
   restartBtn.addEventListener('click', restartTheGame);
 
@@ -47,6 +61,17 @@ const displayController = (function(doc) {
     // If we succesfully retrieved document object model, then get the board
     if(!!doc && 'getElementById' in doc) {
       return doc.getElementById('game-board');
+    }
+  }
+
+  const emptyGameBoardWeb = () => {
+    // If we succesfully retrieved document object model, then get the board
+    if(!!doc && 'getElementById' in doc) {
+      let gameBoard = doc.getElementById('game-board');
+      for(let i = 0; i < gameBoard.children.length; i++) {
+        let div = gameBoard.children[i];
+        div.innerHTML = '';
+      }
     }
   }
 
@@ -87,14 +112,12 @@ const displayController = (function(doc) {
 
   // Listening for if the game has been started.
   console.log('DISPLAYCONTROLLER: listening for startTheGame event.')
-  Pubsub.subscribe('startTheGame', enableBoardClicking);
-
-  console.log('DISPLAYCONTROLLER: listening for displayResult event.')
-  Pubsub.subscribe('displayResult', displayResult);
-  
+  Pubsub.subscribe('startTheGame', startTheGame);
 
   return {
     getGameBoardFromWeb,
-    enableBoardClicking
+    enableBoardClicking,
+    emptyGameBoardWeb
   }
+  
 })(document);
