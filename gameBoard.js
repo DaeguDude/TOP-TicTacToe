@@ -15,7 +15,7 @@ const gameBoard = (function() {
   const initializeBoard = () => {
     console.log('GAMEBOARD - I heard STARTTHEGAME event was annoucned. Initialize Board');
     for(let i = 0; i < 9; i++) {
-      _board.push('');
+      _board[i] = '';
     }
   }
 
