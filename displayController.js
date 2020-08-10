@@ -22,14 +22,38 @@ const displayController = (function(doc) {
 
       // Let everybody know time to start the game
       Pubsub.emit('startTheGame', players);
+    } else {
+      // If either one of it is empty, let's change the color to remind the user
+      if(playerOneName === '') {
+        let playerOneInput = doc.getElementById('player1').children[1];
+        playerOneInput.style.border = "2px solid red";
+      }
+      if(playerTwoName === '') {
+        let playerTwoInput = doc.getElementById('player2').children[1];
+        playerTwoInput.style.border = "2px solid red";
+      }
     }
   })
 
   const startTheGame = () => {
     enableBoardClicking();
+    displayPlayers();
 
     console.log('DISPLAYCONTROLLER: listening for displayResult event.')
     Pubsub.subscribe('displayResult', displayResult);
+  }
+
+  const displayPlayers = () => {
+    let userNameBoard = doc.getElementById('user-name-board');
+    userNameBoard.style.display = "block";
+
+    let playerOne = doc.getElementById('playerOne');
+    let playerTwo = doc.getElementById('playerTwo');
+    let playerOneName = doc.getElementById('player1').children[1].value;
+    let playerTwoName = doc.getElementById('player2').children[1].value;
+
+    playerOne.innerHTML = playerOneName + ' - X';
+    playerTwo.innerHTML = playerTwoName + ' - O' ;
   }
 
   const restartTheGame = () => {
@@ -43,9 +67,17 @@ const displayController = (function(doc) {
     let playerTwoNameInput = doc.getElementById('player2').children[1];
     playerOneNameInput.value = '';
     playerTwoNameInput.value = '';
+
+    // Change the color of input back to normal
+    playerOneNameInput.style.border = "2px inset black";
+    playerTwoNameInput.style.border = "2px inset black";
     
     // Empty the gameBoard
     emptyGameBoardWeb();
+
+    // Make userboard to not be seen again
+    let userNameBoard = doc.getElementById('user-name-board');
+    userNameBoard.style.display = "none";
 
     // restart the game
     Pubsub.emit('restartTheGame');
@@ -93,6 +125,7 @@ const displayController = (function(doc) {
   }
 
   const displayResult = (result) => {
+
     if(result === 'tie') {
       gameBoardWeb.style.display = "none";
       resultDisplay.style.display = "flex";
