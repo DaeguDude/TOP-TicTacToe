@@ -235,6 +235,50 @@ footer {
   padding: 5px;
 }
 
+@media only screen and (max-height: 700px) {
+  header {
+    min-height: 100px;
+  }
+  header #title {
+    font-size: 2em;
+    color: white;
+  }
+
+  #main {
+    background: #ffffff;
+    min-height: 450px;
+  
+    flex: 8 1 auto;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  footer {
+    display: none;
+  }
+
+  /* ------------------------------------------ */
+  /* GAMEBOARD */
+
+  #game-board {
+    border: 1px solid black;
+  
+    display: none;
+  
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+  }
+  
+  #game-board div {
+    border: 1px solid black;
+    text-align: center;
+    line-height: 100px;
+    font-size: 100px;
+  }
+}
 
 
 
